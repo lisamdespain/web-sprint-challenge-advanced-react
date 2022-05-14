@@ -143,6 +143,7 @@ export default function AppFunctional(props) {
   }
   const onChange = (e) =>{
     setState({
+      ...state,
      inputValue: e.target.value 
     })
   }
@@ -165,7 +166,7 @@ export default function AppFunctional(props) {
     })
   })
   .catch(err => {
-    setState({
+    return setState({
       ...state,
       message: err.response.data.message
     })})
