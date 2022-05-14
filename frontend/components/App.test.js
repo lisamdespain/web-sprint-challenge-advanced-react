@@ -15,7 +15,7 @@ render(<AppClass />);
 
 test('We have a header', () =>{
   render(<AppClass />);
-  const header = screen.getByText(/Welcome to the Grid/i)
+  const header = screen.getByText(/Welcome to the GRID/i);
   expect(header).toBeInTheDocument();
 })
 

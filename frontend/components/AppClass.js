@@ -70,6 +70,8 @@ export default class AppClass extends React.Component {
   }
 
   resetClick = () =>{
+    const emailInput = document.getElementById('email');
+   emailInput.value = '';
     return this.setState({
         x: 2,
         y: 2,
@@ -121,22 +123,9 @@ onChange = (e) =>{
 
 onSubmit = (e) =>{
   e.preventDefault();
-  // if (this.inputValue === ''){
-  //   this.setState({
-  //     message: 'Ouch: email is required'
-  //   })
-  // } else if (this.inputValue === 'bad@email'){
-  //   this.setState({
-  //     message: 'Ouch: email must be a valid email'
-  //   })
-  // }
-  // else if (this.inputValue === 'foo@bar.baz'){
-  //   this.setState({
-  //     message: 'foo@bar.baz failure #71'
-  //   })
-  // } else{
+ 
     this.sendToApi(e, this.state.inputValue); 
-  // }
+  
   const emailInput = document.getElementById('email');
   return emailInput.value = '';
   }
@@ -162,7 +151,7 @@ sendToApi = () =>{
       <div id="wrapper" className={className}>
         <div className="info">
           <h3 id="coordinates">{`Coordinates (${this.state.x}, ${this.state.y})`}</h3>
-          <h3 id="steps">{`You moved ${this.state.totalTurns} times`}</h3>
+          <h3 id="steps">{this.state.totalTurns === 1 ? `You moved ${this.state.totalTurns} time`: `You moved ${this.state.totalTurns} times`}</h3>
         </div>
           <div id="grid">
           {this.state.grid.map((square, idx) => 
