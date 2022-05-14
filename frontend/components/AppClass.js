@@ -8,8 +8,8 @@ export default class AppClass extends React.Component {
     message: '',
     grid: ['','','','','B','','','',''],
     totalTurns: 0,
-    email: '',
-    inputValue: ''
+    email: '', 
+    inputValue:''
   }
 
   leftClick = (x, y) =>{
@@ -76,8 +76,8 @@ export default class AppClass extends React.Component {
         message: '',
         grid: ['','','','','B','','','',''],
         totalTurns: 0,
-        email: '', 
-        inputValue: ''
+        email: '',
+        inputValue: ''  
       }
     );
   }
@@ -115,27 +115,43 @@ newIdx = (x, y) =>{
 }
 onChange = (e) =>{
   this.setState({
-    email: e.target.value 
+    inputValue: e.target.value 
   })
 }
 
 onSubmit = (e) =>{
   e.preventDefault();
-  this.sendToApi(); 
-  this.setState({
-    email: ''    
-  })
-  return this.resetClick();
+  // if (this.inputValue === ''){
+  //   this.setState({
+  //     message: 'Ouch: email is required'
+  //   })
+  // } else if (this.inputValue === 'bad@email'){
+  //   this.setState({
+  //     message: 'Ouch: email must be a valid email'
+  //   })
+  // }
+  // else if (this.inputValue === 'foo@bar.baz'){
+  //   this.setState({
+  //     message: 'foo@bar.baz failure #71'
+  //   })
+  // } else{
+    this.sendToApi(e, this.state.inputValue); 
+  // }
+  const emailInput = document.getElementById('email');
+  return emailInput.value = '';
   }
   
 sendToApi = () =>{
- axios.post("http://localhost:9000/api/result", {x: this.state.x, y: this.state.y, steps: this.state.totalTurns, email: this.state.email})
+ axios.post("http://localhost:9000/api/result", {x: this.state.x, y: this.state.y, steps: this.state.totalTurns, email: this.state.inputValue})
 .then(res => {
   this.setState({
-    message: res.data.message,
+    message: res.data.message
   })
 })
-.catch(err => {console.log(err)})
+.catch(err => {
+  this.setState({
+    message: err.response.data.message
+  })})
 }
 
 
