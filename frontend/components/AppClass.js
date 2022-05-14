@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios';
 
 export default class AppClass extends React.Component {
-  state = {
+  initialValues = {
     x: 2,
     y: 2,
     message: '',
@@ -11,15 +11,20 @@ export default class AppClass extends React.Component {
     email: '', 
     inputValue:''
   }
+  
+  state = this.initialValues;
 
   leftClick = (x, y) =>{
+    const newX = this.state.x - 1; 
+    const turnTotal = this.state.totalTurns + 1;
     if (x === 2 || x === 3) {
-       this.setState({
-        x: x - 1,
+      
+      this.setState({
+        x: newX,
         message: "",
-        totalTurns: this.state.totalTurns + 1
+        totalTurns: turnTotal,
         });  
-        return this.newIdx(x-1, y);      
+        return this.newIdx(newX, y);      
       } else {
         return this.setState({
           message: "You can't go left"})
@@ -27,13 +32,16 @@ export default class AppClass extends React.Component {
   }
 
   rightClick = (x, y) =>{
+    const newX = this.state.x + 1; 
+    const turnTotal = this.state.totalTurns + 1;
     if (x === 1 || x === 2) {
+    
       this.setState({
-        x: x + 1, 
+        x: newX, 
         message: "",
-        totalTurns: this.state.totalTurns + 1
+        totalTurns: turnTotal
         });
-        return this.newIdx(x+1, y)
+        return this.newIdx(newX, y)
       } else {
         return this.setState({
           message: "You can't go right"
@@ -42,13 +50,16 @@ export default class AppClass extends React.Component {
   }
 
   upClick = (x, y) =>{
+    const newY = this.state.y - 1;
+    const turnTotal = this.state.totalTurns + 1;
     if (y === 2 || y === 3) {
+    
       this.setState({
-        y: y - 1,
+        y: newY,
         message: "",
-        totalTurns: this.state.totalTurns + 1
+        totalTurns: turnTotal
       });
-        return this.newIdx(x, y-1)
+        return this.newIdx(x, newY)
       } else {
         this.setState({
           message: "You can't go up"
@@ -56,12 +67,15 @@ export default class AppClass extends React.Component {
   }
 
   downClick = (x, y) =>{
+    const newY = this.state.y + 1;
+    const turnTotal = this.state.totalTurns + 1;
     if (y === 1 || y === 2) {
+    
       this.setState({
-        y: y + 1,
+        y: newY,
         message: "",
-        totalTurns: this.state.totalTurns + 1});
-      return this.newIdx(x, y+1)
+        totalTurns: turnTotal});
+      return this.newIdx(x, newY)
       } else {
         this.setState({
           message: "You can't go down"
@@ -71,19 +85,9 @@ export default class AppClass extends React.Component {
 
   resetClick = () =>{
     const emailInput = document.getElementById('email');
-   emailInput.value = '';
-    return this.setState({
-        x: 2,
-        y: 2,
-        message: '',
-        grid: ['','','','','B','','','',''],
-        totalTurns: 0,
-        email: '',
-        inputValue: ''  
-      }
-    );
+    emailInput.value = '';
+    return this.setState(this.initialValues);
   }
-
 
 newIdx = (x, y) =>{
   if (x === 1 && y === 1){
@@ -117,7 +121,7 @@ newIdx = (x, y) =>{
 }
 onChange = (e) =>{
   this.setState({
-    inputValue: e.target.value 
+   inputValue: e.target.value 
   })
 }
 
@@ -134,11 +138,13 @@ sendToApi = () =>{
  axios.post("http://localhost:9000/api/result", {x: this.state.x, y: this.state.y, steps: this.state.totalTurns, email: this.state.inputValue})
 .then(res => {
   this.setState({
+    ...this.state,
     message: res.data.message
   })
 })
 .catch(err => {
   this.setState({
+    ...this.state,
     message: err.response.data.message
   })})
 }
