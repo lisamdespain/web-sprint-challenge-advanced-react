@@ -7,13 +7,16 @@ export default class AppClass extends React.Component {
     message: '',
     grid: ['','','','','B','','','',''],
     totalTurns: 0,
-    activeSquare: false
+    activeSquare: true
   }
+
   leftClick = (x, y) =>{
     if (x === 2 || x === 3) {
-      this.setState({
-        x: x - 1});
-        return this.newIdx(x, y)
+       this.setState({
+        x: x - 1,
+        totalTurns: this.state.totalTurns + 1
+        });  
+        return this.newIdx(x-1, y);      
       } else {
         return this.setState({
           message: "You can't go left"})
@@ -23,8 +26,10 @@ export default class AppClass extends React.Component {
   rightClick = (x, y) =>{
     if (x === 1 || x === 2) {
       this.setState({
-        x: x + 1});
-        return this.newIdx(x, y)
+        x: x + 1, 
+        totalTurns: this.state.totalTurns + 1
+        });
+        return this.newIdx(x+1, y)
       } else {
         return this.setState({
           message: "You can't go right"
@@ -35,8 +40,10 @@ export default class AppClass extends React.Component {
   upClick = (x, y) =>{
     if (y === 2 || y === 3) {
       this.setState({
-        y: y - 1});
-        return this.newIdx(x, y)
+        y: y - 1,
+        totalTurns: this.state.totalTurns + 1
+      });
+        return this.newIdx(x, y-1)
       } else {
         this.setState({
           message: "You can't go up"
@@ -46,8 +53,9 @@ export default class AppClass extends React.Component {
   downClick = (x, y) =>{
     if (y === 1 || y === 2) {
       this.setState({
-        y: y + 1});
-      return this.newIdx(x, y)
+        y: y + 1,
+        totalTurns: this.state.totalTurns + 1});
+      return this.newIdx(x, y+1)
       } else {
         this.setState({
           message: "You can't go down"
@@ -56,13 +64,21 @@ export default class AppClass extends React.Component {
   }
 
   resetClick = () =>{
-    return this.state.grid;
+    return this.setState({
+        x: 2,
+        y: 2,
+        message: '',
+        grid: ['','','','','B','','','',''],
+        totalTurns: 0,
+        activeSquare: true
+      }
+    );
   }
-makeSquareActive = (id) =>{
-  id ? this.setState({
-    activeSquare: true
-  }) : false;
+ 
+makeSquareActive = () =>{
+  this.state.grid.filter((text) => text === "B" ? this.setState({activeSquare: true}) : this.setState({activeSquare: false}));
 }
+
 newIdx = (x, y) =>{
   if (x === 1 && y === 1){
     this.setState({
@@ -113,7 +129,8 @@ newIdx = (x, y) =>{
           <h3 id="steps">{`You moved ${this.state.totalTurns} times`}</h3>
         </div>
           <div id="grid">
-          {this.state.grid.map((square, idx) => <div key={idx} className="square">{square}</div>)}
+          {this.state.grid.map((square, idx) => 
+          <div key={idx} className = {this.state.activeSquare ? 'square active' : 'square'}>{square}</div>)}
  
         </div>
         <div className="info">
