@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios';
 
 export default class AppClass extends React.Component {
   state = {
@@ -7,6 +8,8 @@ export default class AppClass extends React.Component {
     message: '',
     grid: ['','','','','B','','','',''],
     totalTurns: 0,
+    email: '',
+    inputValue: ''
   }
 
   leftClick = (x, y) =>{
@@ -73,13 +76,12 @@ export default class AppClass extends React.Component {
         message: '',
         grid: ['','','','','B','','','',''],
         totalTurns: 0,
+        email: '', 
+        inputValue: ''
       }
     );
   }
-//  makeSquareActive is not yet working
-// makeSquareActive = () =>{
-//   this.state.grid.filter((text) => text === "B" ? this.setState({activeSquare: true}) : this.setState({activeSquare: false}));
-// }
+
 
 newIdx = (x, y) =>{
   if (x === 1 && y === 1){
@@ -112,8 +114,30 @@ newIdx = (x, y) =>{
 }
 }
 onChange = (e) =>{
-
+  this.setState({
+    email: e.target.value 
+  })
 }
+
+onSubmit = (e) =>{
+  e.preventDefault();
+  this.sendToApi(); 
+  this.setState({
+    email: ''    
+  })
+  return this.resetClick();
+  }
+  
+sendToApi = () =>{
+ axios.post("http://localhost:9000/api/result", {x: this.state.x, y: this.state.y, steps: this.state.totalTurns, email: this.state.email})
+.then(res => {
+  this.setState({
+    message: res.data.message,
+  })
+})
+.catch(err => {console.log(err)})
+}
+
 
   render() {
     
@@ -139,8 +163,8 @@ onChange = (e) =>{
           <button onClick={() => this.downClick(this.state.x, this.state.y)} id="down">DOWN</button>
           <button onClick={() => this.resetClick()} id="reset">reset</button>
         </div>
-        <form>
-          <input id="email" type="email" placeholder="type email" onChange={this.onChange}></input>
+        <form onSubmit={this.onSubmit}>
+          <input id="email" type="email" placeholder="type email" name="email" onChange={this.onChange}></input>
           <input id="submit" type="submit"></input>
         </form>
       </div>
