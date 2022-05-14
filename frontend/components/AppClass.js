@@ -7,13 +7,13 @@ export default class AppClass extends React.Component {
     message: '',
     grid: ['','','','','B','','','',''],
     totalTurns: 0,
-    activeSquare: true
   }
 
   leftClick = (x, y) =>{
     if (x === 2 || x === 3) {
        this.setState({
         x: x - 1,
+        message: "",
         totalTurns: this.state.totalTurns + 1
         });  
         return this.newIdx(x-1, y);      
@@ -27,6 +27,7 @@ export default class AppClass extends React.Component {
     if (x === 1 || x === 2) {
       this.setState({
         x: x + 1, 
+        message: "",
         totalTurns: this.state.totalTurns + 1
         });
         return this.newIdx(x+1, y)
@@ -41,6 +42,7 @@ export default class AppClass extends React.Component {
     if (y === 2 || y === 3) {
       this.setState({
         y: y - 1,
+        message: "",
         totalTurns: this.state.totalTurns + 1
       });
         return this.newIdx(x, y-1)
@@ -54,6 +56,7 @@ export default class AppClass extends React.Component {
     if (y === 1 || y === 2) {
       this.setState({
         y: y + 1,
+        message: "",
         totalTurns: this.state.totalTurns + 1});
       return this.newIdx(x, y+1)
       } else {
@@ -70,53 +73,46 @@ export default class AppClass extends React.Component {
         message: '',
         grid: ['','','','','B','','','',''],
         totalTurns: 0,
-        activeSquare: true
       }
     );
   }
- 
-makeSquareActive = () =>{
-  this.state.grid.filter((text) => text === "B" ? this.setState({activeSquare: true}) : this.setState({activeSquare: false}));
-}
+//  makeSquareActive is not yet working
+// makeSquareActive = () =>{
+//   this.state.grid.filter((text) => text === "B" ? this.setState({activeSquare: true}) : this.setState({activeSquare: false}));
+// }
 
 newIdx = (x, y) =>{
   if (x === 1 && y === 1){
-    this.setState({
+    return this.setState({
       grid: ['B','','','','','','','','']});
-    return this.makeSquareActive(0);
 } else if (x === 2 && y === 1){
-  this.setState({
+  return this.setState({
     grid: ['','B','','','','','','','']});
-  return this.makeSquareActive(1);
 } else if (x === 3 && y === 1){
-  this.setState({
+  return this.setState({
     grid: ['','','B','','','','','','']});
-  return this.makeSquareActive(2);
 } else if (x === 1 && y === 2){
-  this.setState({
+  return this.setState({
     grid: ['','','','B','','','','','']});
-  return this.makeSquareActive(3);
 } else if (x === 2 && y === 2){
-  this.setState({
+  return this.setState({
     grid: ['','','','','B','','','','']});
-  return this.makeSquareActive(4);
 } else if (x === 3 && y === 2){
-  this.setState({
+  return this.setState({
     grid: ['','','','','','B','','','']});
-  return this.makeSquareActive(5);
 } else if (x === 1 && y === 3){
-  this.setState({
+  return this.setState({
     grid: ['','','','','','','B','','']});
-  return this.makeSquareActive(6);
 } else if (x === 2 && y === 3){
-  this.setState({
+  return this.setState({
     grid: ['','','','','','','','B','']});
-  return this.makeSquareActive(7);
 }else if (x === 3 && y === 3){
-  this.setState({
+  return this.setState({
     grid: ['','','','','','','','','B']});
-  return this.makeSquareActive(8);
 }
+}
+onChange = (e) =>{
+
 }
 
   render() {
@@ -130,7 +126,7 @@ newIdx = (x, y) =>{
         </div>
           <div id="grid">
           {this.state.grid.map((square, idx) => 
-          <div key={idx} className = {this.state.activeSquare ? 'square active' : 'square'}>{square}</div>)}
+          <div key={idx} className = {square ? 'square active' : 'square'}>{square}</div>)}
  
         </div>
         <div className="info">
@@ -144,7 +140,7 @@ newIdx = (x, y) =>{
           <button onClick={() => this.resetClick()} id="reset">reset</button>
         </div>
         <form>
-          <input id="email" type="email" placeholder="type email"></input>
+          <input id="email" type="email" placeholder="type email" onChange={this.onChange}></input>
           <input id="submit" type="submit"></input>
         </form>
       </div>
