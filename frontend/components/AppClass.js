@@ -15,69 +15,46 @@ export default class AppClass extends React.Component {
   state = this.initialValues;
 
   leftClick = (x, y) =>{
-    const newX = this.state.x - 1; 
-    const turnTotal = this.state.totalTurns + 1;
     if (x === 2 || x === 3) {
-      
-      this.setState({
-        x: newX,
-        message: "",
-        totalTurns: turnTotal,
-        });  
-        return this.newIdx(newX, y);      
+      const leftX = this.state.x - 1;
+      return this.newIdx(leftX, y);      
       } else {
         return this.setState({
+          ...this.state,
           message: "You can't go left"})
       }
   }
 
   rightClick = (x, y) =>{
-    const newX = this.state.x + 1; 
-    const turnTotal = this.state.totalTurns + 1;
     if (x === 1 || x === 2) {
-    
-      this.setState({
-        x: newX, 
-        message: "",
-        totalTurns: turnTotal
-        });
-        return this.newIdx(newX, y)
+      const rightX = this.state.x + 1;
+      return this.newIdx(rightX, y)
       } else {
         return this.setState({
+          ...this.state,
           message: "You can't go right"
         })
       }
   }
 
   upClick = (x, y) =>{
-    const newY = this.state.y - 1;
-    const turnTotal = this.state.totalTurns + 1;
     if (y === 2 || y === 3) {
-    
-      this.setState({
-        y: newY,
-        message: "",
-        totalTurns: turnTotal
-      });
-        return this.newIdx(x, newY)
+      const upY = this.state.y - 1;
+      return this.newIdx(x, upY)
       } else {
         this.setState({
+          ...this.state,
           message: "You can't go up"
         })      }
   }
 
   downClick = (x, y) =>{
-    const newY = this.state.y + 1;
-    const turnTotal = this.state.totalTurns + 1;
     if (y === 1 || y === 2) {
-    
-      this.setState({
-        y: newY,
-        message: "",
-        totalTurns: turnTotal});
-      return this.newIdx(x, newY)
+    const downY = this.state.y + 1;
+      return this.newIdx(x, downY)
       } else {
         this.setState({
+          ...this.state,
           message: "You can't go down"
         })
       }
@@ -89,36 +66,82 @@ export default class AppClass extends React.Component {
     return this.setState(this.initialValues);
   }
 
-newIdx = (x, y) =>{
-  if (x === 1 && y === 1){
-  return this.setState({
-      grid: ['B','','','','','','','','']});
-} else if (x === 2 && y === 1){
-  return this.setState({
-    grid: ['','B','','','','','','','']});
-} else if (x === 3 && y === 1){
-  return this.setState({
-    grid: ['','','B','','','','','','']});
-} else if (x === 1 && y === 2){
-  return this.setState({
-    grid: ['','','','B','','','','','']});
-} else if (x === 2 && y === 2){
-  return this.setState({
-    grid: ['','','','','B','','','','']});
-} else if (x === 3 && y === 2){
-  return this.setState({
-    grid: ['','','','','','B','','','']});
-} else if (x === 1 && y === 3){
-  return this.setState({
-    grid: ['','','','','','','B','','']});
-} else if (x === 2 && y === 3){
-  return this.setState({
-    grid: ['','','','','','','','B','']});
-}else if (x === 3 && y === 3){
-  return this.setState({
-    grid: ['','','','','','','','','B']});
-}
-}
+  newIdx = (x, y) =>{
+    const turnTotal = this.state.totalTurns + 1;
+    if (x === 1 && y === 1){
+    return this.setState({
+      ...this.state,
+      x: 1,
+      y: 1,
+      message: '',
+      grid: ['B','','','','','','','',''],
+      totalTurns: turnTotal
+      });
+  } else if (x === 2 && y === 1){
+    return this.setState({
+      ...this.state,
+      x: 2,
+      y: 1,
+      message: '',
+      grid: ['','B','','','','','','',''],
+      totalTurns: turnTotal});
+  } else if (x === 3 && y === 1){
+    return this.setState({
+      ...this.state,
+      x: 3,
+      y: 1,
+      message: '',
+      grid: ['','','B','','','','','',''],
+      totalTurns: turnTotal});
+  } else if (x === 1 && y === 2){
+    return this.setState({
+      ...this.state,
+      x: 1,
+      y: 2,
+      message: '',
+      grid: ['','','','B','','','','',''],
+      totalTurns: turnTotal});
+  } else if (x === 2 && y === 2){
+    return this.setState({
+      ...this.state,
+      x: 2,
+      y: 2,
+      grid: ['','','','','B','','','',''],
+      totalTurns: turnTotal});
+  } else if (x === 3 && y === 2){
+    return this.setState({
+      ...this.state,
+      x: 3,
+      y: 2,
+      message: '',
+      grid: ['','','','','','B','','',''],
+      totalTurns: turnTotal});
+  } else if (x === 1 && y === 3){
+    return this.setState({
+      ...this.state,
+      x: 1,
+      y: 3,
+      message: '',
+      grid: ['','','','','','','B','',''],
+      totalTurns: turnTotal});
+  } else if (x === 2 && y === 3){
+    return this.setState({
+      ...this.state,
+      x: 2,
+      y: 3,
+      message: '',
+      grid: ['','','','','','','','B',''],
+      totalTurns: turnTotal});
+  }else if (x === 3 && y === 3){
+    return this.setState({
+      ...this.state,
+      x: 3,
+      y: 3,
+      message: '',
+      grid: ['','','','','','','','','B'],
+      totalTurns: turnTotal});
+  }
+  }
 onChange = (e) =>{
   this.setState({
    inputValue: e.target.value 
