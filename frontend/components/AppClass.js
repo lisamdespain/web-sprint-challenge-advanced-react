@@ -91,7 +91,7 @@ export default class AppClass extends React.Component {
 
 newIdx = (x, y) =>{
   if (x === 1 && y === 1){
-    return this.setState({
+  return this.setState({
       grid: ['B','','','','','','','','']});
 } else if (x === 2 && y === 1){
   return this.setState({

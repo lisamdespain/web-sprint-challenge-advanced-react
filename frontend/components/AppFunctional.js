@@ -23,8 +23,8 @@ export default function AppFunctional(props) {
  
  const leftClick = (x, y) =>{
     if (x === 2 || x === 3) {
-      const newX = state.x - 1;
-      return newIdx(newX, y);      
+      const leftX = state.x - 1;
+      return newIdx(leftX, y);      
       } else {
         return setState({
           ...state,
@@ -34,8 +34,8 @@ export default function AppFunctional(props) {
 
   const rightClick = (x, y) =>{
     if (x === 1 || x === 2) {
-      const newX = state.x + 1;
-      return newIdx(newX, y)
+      const rightX = state.x + 1;
+      return newIdx(rightX, y)
       } else {
         return setState({
           ...state,
@@ -46,8 +46,8 @@ export default function AppFunctional(props) {
 
   const upClick = (x, y) =>{
     if (y === 2 || y === 3) {
-      const newY = state.y - 1;
-      return newIdx(x, newY)
+      const upY = state.y - 1;
+      return newIdx(x, upY)
       } else {
         setState({
           ...state,
@@ -57,9 +57,8 @@ export default function AppFunctional(props) {
 
   const downClick = (x, y) =>{
     if (y === 1 || y === 2) {
-    const newY = state.y + 1;
-
-      return newIdx(x, newY)
+    const downY = state.y + 1;
+      return newIdx(x, downY)
       } else {
         setState({
           ...state,
@@ -105,6 +104,8 @@ export default function AppFunctional(props) {
   } else if (x === 2 && y === 2){
     return setState({
       ...state,
+      x: 2,
+      y: 2,
       grid: ['','','','','B','','','',''],
       totalTurns: turnTotal});
   } else if (x === 3 && y === 2){
